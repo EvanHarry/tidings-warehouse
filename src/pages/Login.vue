@@ -79,6 +79,7 @@
               <q-btn
                 class="q-mx-sm"
                 color="blue"
+                :disable="!valid"
                 :loading="loading"
                 :ripple="false"
                 style="border-radius: 0; max-width: 150px; width: 100%;"
@@ -96,7 +97,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 import useAuthUser from 'src/composables/useAuthUser'
@@ -109,9 +110,17 @@ export default defineComponent({
 
     const { login } = useAuthUser()
 
-    const email = ref('evan.harry@adlerpelzer.com')
+    const email = ref('')
     const loading = ref(false)
-    const password = ref('Test1234')
+    const password = ref('')
+    const valid = computed(() => {
+      let valid = true
+
+      if (!email.value) valid = false
+      if (!password.value) valid = false
+
+      return valid
+    })
 
     const handleLogin = async () => {
       loading.value = true
@@ -126,7 +135,8 @@ export default defineComponent({
       email,
       handleLogin,
       loading,
-      password
+      password,
+      valid
     }
   }
 })
