@@ -95,6 +95,7 @@
               icon="check"
               :ripple="false"
               size="sm"
+              @click="inventoryEditOpen(props.row)"
             >
               <q-tooltip>Edit Entry</q-tooltip>
             </q-btn>
@@ -345,6 +346,136 @@
     </q-dialog>
 
     <q-dialog
+      v-model="inventoryEditDialog"
+      persistent
+    >
+      <q-card
+        bordered
+        flat
+        square
+        style="width: 600px;"
+      >
+        <q-card-section class="q-pb-xs">
+          <div class="text-subtitle2">Date Arrived</div>
+
+          <q-input
+            v-model="inventoryEdit.dateArrived"
+            class="bg-white"
+            dense
+            outlined
+            placeholder="YYYY-MM-DD HH:mm"
+            square
+          >
+            <q-popup-proxy
+              cover
+              transition-hide="scale"
+              transition-show="scale"
+            >
+              <q-date
+                v-model="inventoryEdit.dateArrived"
+                first-day-of-week="1"
+                flat
+                mask="YYYY-MM-DD HH:mm"
+                minimal
+                no-unset
+              />
+            </q-popup-proxy>
+          </q-input>
+        </q-card-section>
+
+        <q-card-section class="q-py-xs">
+          <div class="text-subtitle2">Invoice No.</div>
+
+          <q-input
+            v-model="inventoryEdit.invoiceNumber"
+            class="bg-white"
+            dense
+            outlined
+            square
+          />
+        </q-card-section>
+
+        <q-card-section class="q-py-xs">
+          <div class="text-subtitle2">Location</div>
+
+          <q-input
+            v-model="inventoryEdit.location"
+            class="bg-white"
+            dense
+            outlined
+            square
+          />
+        </q-card-section>
+
+        <q-card-section class="q-py-xs">
+          <div class="text-subtitle2">Part Description</div>
+
+          <q-input
+            v-model="inventoryEdit.partDescription"
+            class="bg-white"
+            dense
+            outlined
+            square
+          />
+        </q-card-section>
+
+        <q-card-section class="q-py-xs">
+          <div class="text-subtitle2">Part No.</div>
+
+          <q-input
+            v-model="inventoryEdit.partNumber"
+            class="bg-white"
+            dense
+            outlined
+            square
+          />
+        </q-card-section>
+
+        <q-card-section class="q-pt-xs">
+          <div class="text-subtitle2">Last Modified</div>
+
+          <q-input
+            v-model="inventoryEdit.lastModified"
+            class="bg-white"
+            dense
+            disable
+            outlined
+            square
+          />
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-actions>
+          <q-btn
+            :class="userOnMobile ? 'mobile-btn' : 'desktop-btn' + ' q-mx-sm'"
+            color="red"
+            :disable="inventoryEditSaveLoading"
+            :ripple="false"
+            unelevated
+            @click="inventoryEditCancel"
+          >
+            Cancel
+          </q-btn>
+
+          <q-space />
+
+          <q-btn
+            :class="userOnMobile ? 'mobile-btn' : 'desktop-btn' + ' q-mx-sm'"
+            color="green"
+            :disable="!inventoryEditValid"
+            :loading="inventoryEditSaveLoading"
+            :ripple="false"
+            unelevated
+            @click="inventoryEditSave"
+          >
+            Save
+          </q-btn>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+    <q-dialog
       v-model="searchQueryDialog"
       persistent
     >
@@ -462,6 +593,7 @@
 import { QTableProps, useQuasar } from 'quasar'
 import { computed, defineComponent, onMounted, ref } from 'vue'
 
+import useAuthUser from 'src/composables/useAuthUser'
 import useSupabase from 'src/composables/useSupabase'
 import { generateID, getRandomNumber, prettifyDate } from 'src/utils'
 
@@ -469,6 +601,7 @@ type Inventory = {
   dateArrived: string
   id: string
   invoiceNumber: string
+  lastModified: string
   location: string
   partDescription: string
   partNumber: string
@@ -537,6 +670,7 @@ export default defineComponent({
   setup () {
     const $quasar = useQuasar()
 
+    const { userName } = useAuthUser()
     const { supabase } = useSupabase()
 
     const mockDatabase = async () => {
@@ -581,6 +715,7 @@ export default defineComponent({
           dateArrived: prettifyDate(new Date(m.date_arrived)),
           id: m.id,
           invoiceNumber: m.invoice_number,
+          lastModified: m.last_modified,
           location: m.location,
           partDescription: m.part_description,
           partNumber: m.part_number
@@ -591,9 +726,9 @@ export default defineComponent({
     onMounted(inventoryAllGet)
 
     // Inventory Create
-    const inventoryCreate = ref<Inventory>({ dateArrived: prettifyDate(new Date()), id: '', invoiceNumber: '', location: '', partDescription: '', partNumber: '' })
+    const inventoryCreate = ref<Inventory>({ dateArrived: prettifyDate(new Date()), id: '', invoiceNumber: '', lastModified: `${prettifyDate(new Date())} - ${userName.value}`, location: '', partDescription: '', partNumber: '' })
     const inventoryCreateCancel = () => {
-      inventoryCreate.value = { dateArrived: prettifyDate(new Date()), id: '', invoiceNumber: '', location: '', partDescription: '', partNumber: '' }
+      inventoryCreate.value = { dateArrived: prettifyDate(new Date()), id: '', invoiceNumber: '', lastModified: `${prettifyDate(new Date())} - ${userName.value}`, location: '', partDescription: '', partNumber: '' }
       inventoryCreateDialog.value = false
       inventoryCreateSaveLoading.value = false
     }
@@ -606,6 +741,7 @@ export default defineComponent({
       const { data, error } = await supabase.from('inventory').insert({
         date_arrived: new Date(inventoryCreate.value.dateArrived).toISOString(),
         invoice_number: inventoryCreate.value.invoiceNumber,
+        last_modified: inventoryCreate.value.lastModified,
         location: inventoryCreate.value.location,
         part_description: inventoryCreate.value.partDescription,
         part_number: inventoryCreate.value.partNumber
@@ -624,6 +760,7 @@ export default defineComponent({
         dateArrived: prettifyDate(new Date(data.date_arrived)),
         id: data.id,
         invoiceNumber: data.invoice_number,
+        lastModified: data.last_modified,
         location: data.location,
         partDescription: data.part_description,
         partNumber: data.part_number
@@ -639,6 +776,79 @@ export default defineComponent({
       if (!inventoryCreate.value.invoiceNumber) valid = false
       if (!inventoryCreate.value.location) valid = false
       if (!inventoryCreate.value.partDescription && !inventoryCreate.value.partNumber) valid = false
+
+      return valid
+    })
+
+    // Inventory Edit
+    const inventoryEdit = ref<Inventory>({ dateArrived: '', id: '', invoiceNumber: '', lastModified: '', location: '', partDescription: '', partNumber: '' })
+    const inventoryEditCancel = () => {
+      inventoryEdit.value = { dateArrived: '', id: '', invoiceNumber: '', lastModified: '', location: '', partDescription: '', partNumber: '' }
+      inventoryEditDialog.value = false
+      inventoryEditSaveLoading.value = false
+    }
+    const inventoryEditDialog = ref(false)
+    const inventoryEditOpen = (inventory: Inventory) => {
+      const inventoryJSON = JSON.stringify(inventory)
+      inventoryEdit.value = JSON.parse(inventoryJSON) as Inventory
+      inventoryEditDialog.value = true
+    }
+    const inventoryEditSave = async () => {
+      if (!inventoryEditValid.value) return
+
+      inventoryEditSaveLoading.value = true
+
+      let { data, error } = await supabase.from('inventory').update({
+        date_arrived: new Date(inventoryEdit.value.dateArrived).toISOString(),
+        invoice_number: inventoryEdit.value.invoiceNumber,
+        last_modified: `${prettifyDate(new Date())} - ${userName.value}`,
+        location: inventoryEdit.value.location,
+        part_description: inventoryEdit.value.partDescription,
+        part_number: inventoryEdit.value.partNumber
+      }).eq('id', inventoryEdit.value.id).select().single()
+
+      inventoryEditSaveLoading.value = false
+
+      if (!data || error) {
+        if (!data) console.log('unspecified error')
+        if (error) console.log(error)
+
+        return
+      }
+
+      const inventoryIndex = inventoryAll.value.findIndex(m => m.id === inventoryEdit.value.id)
+      if (inventoryIndex >= 0) {
+        inventoryAll.value.splice(inventoryIndex, 1, {
+          dateArrived: prettifyDate(new Date(data.date_arrived)),
+          id: data.id,
+          invoiceNumber: data.invoice_number,
+          lastModified: data.last_modified,
+          location: data.location,
+          partDescription: data.part_description,
+          partNumber: data.part_number
+        })
+      } else {
+        inventoryAll.value.push({
+          dateArrived: prettifyDate(new Date(data.date_arrived)),
+          id: data.id,
+          invoiceNumber: data.invoice_number,
+          lastModified: data.last_modified,
+          location: data.location,
+          partDescription: data.part_description,
+          partNumber: data.part_number
+        })
+      }
+
+      inventoryEditCancel()
+    }
+    const inventoryEditSaveLoading = ref(false)
+    const inventoryEditValid = computed(() => {
+      let valid = true
+
+      if (!inventoryEdit.value.dateArrived) valid = false
+      if (!inventoryEdit.value.invoiceNumber) valid = false
+      if (!inventoryEdit.value.location) valid = false
+      if (!inventoryEdit.value.partDescription && !inventoryEdit.value.partNumber) valid = false
 
       return valid
     })
@@ -664,7 +874,7 @@ export default defineComponent({
     const inventoryRemoveLoading = ref('')
 
     // Search Query
-    const searchQuery = ref<Inventory>({ dateArrived: '', id: '', invoiceNumber: '', location: '', partDescription: '', partNumber: '' })
+    const searchQuery = ref<Inventory>({ dateArrived: '', id: '', invoiceNumber: '', lastModified: '', location: '', partDescription: '', partNumber: '' })
     const searchQueryDialog = ref(false)
     const searchQueryLocationOpts = computed(() => {
       return inventoryAll.value
@@ -696,6 +906,13 @@ export default defineComponent({
       inventoryCreateSave,
       inventoryCreateSaveLoading,
       inventoryCreateValid,
+      inventoryEdit,
+      inventoryEditCancel,
+      inventoryEditDialog,
+      inventoryEditOpen,
+      inventoryEditSave,
+      inventoryEditSaveLoading,
+      inventoryEditValid,
       inventoryRemove,
       inventoryRemoveLoading,
       mockDatabase,
