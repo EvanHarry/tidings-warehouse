@@ -595,7 +595,7 @@ import { computed, defineComponent, onMounted, ref } from 'vue'
 
 import useAuthUser from 'src/composables/useAuthUser'
 import useSupabase from 'src/composables/useSupabase'
-import { generateID, getRandomNumber, prettifyDate } from 'src/utils'
+import { prettifyDate } from 'src/utils'
 
 type Inventory = {
   dateArrived: string
@@ -672,26 +672,6 @@ export default defineComponent({
 
     const { userName } = useAuthUser()
     const { supabase } = useSupabase()
-
-    const mockDatabase = async () => {
-      mockDatabaseLoading.value = true
-
-      for (let i = 0; i < 100; i++) {
-        const invoiceNumber = 'Invoice-' + generateID()
-        const location = 'Zone-' + generateID()
-        const partNumber = 'Part-' + generateID()
-
-        const day = getRandomNumber(0, 28)
-        const dateArrived = new Date()
-        dateArrived.setDate(dateArrived.getDate() - day)
-
-        const { error } = await supabase.from('inventory').insert({ date_arrived: dateArrived, invoice_number: invoiceNumber, location, part_number: partNumber })
-        if (error) console.log(error)
-      }
-
-      mockDatabaseLoading.value = false
-    }
-    const mockDatabaseLoading = ref(false)
 
     // Inventory All
     const inventoryAll = ref<Inventory[]>([])
@@ -915,8 +895,6 @@ export default defineComponent({
       inventoryEditValid,
       inventoryRemove,
       inventoryRemoveLoading,
-      mockDatabase,
-      mockDatabaseLoading,
       searchQuery,
       searchQueryDialog,
       searchQueryLocationOpts,
