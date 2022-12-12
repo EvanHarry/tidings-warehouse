@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh LpR fFf" class="bg-grey-1">
+  <q-layout view="hHh LpR fFf">
     <main-header v-if="isLoggedIn()" />
 
     <q-page-container>

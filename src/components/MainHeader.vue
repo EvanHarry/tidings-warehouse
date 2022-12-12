@@ -1,7 +1,7 @@
 <template>
   <q-header
     bordered
-    class="bg-white text-grey-8"
+    :class="darkMode ? 'bg-dark' : 'bg-white' + ' text-grey-8'"
     :height-hint="58"
   >
     <q-toolbar>
@@ -24,7 +24,7 @@
         <div class="q-pr-xs text-caption">Hi, {{ userName }}</div>
 
         <q-btn
-          color="grey-8"
+          :color="darkMode ? 'grey-4' : 'grey-8'"
           dense
           flat
           icon="person"
@@ -35,7 +35,18 @@
         </q-btn>
 
         <q-btn
-          color="red-8"
+          :color="darkMode ? 'grey-4' : 'grey-8'"
+          dense
+          flat
+          :icon="darkMode ? 'dark_mode' : 'light_mode'"
+          :ripple="false"
+          @click="handleDarkMode"
+        >
+          <q-tooltip>{{ darkMode ? 'Dark Mode' : 'Light Mode' }}</q-tooltip>
+        </q-btn>
+
+        <q-btn
+          :color="darkMode ? 'red-4' : 'red-8'"
           dense
           flat
           icon="exit_to_app"
@@ -51,7 +62,7 @@
 
 <script lang="ts">
 import { useQuasar } from 'quasar'
-import { defineComponent } from 'vue'
+import { computed, defineComponent, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 import useAuthUser from 'src/composables/useAuthUser'
@@ -66,6 +77,18 @@ export default defineComponent({
 
     const { logout, user, userName } = useAuthUser()
     const { supabase } = useSupabase()
+
+    onMounted(() => {
+      const darkMode = localStorage.getItem('darkMode')
+      if (darkMode) {
+        $quasar.dark.set(darkMode === 'true')
+      }
+    })
+
+    const handleDarkMode = () => {
+      $quasar.dark.toggle()
+      localStorage.setItem('darkMode', $quasar.dark.isActive)
+    }
 
     const handleLogout = async () => {
       await logout()
@@ -99,7 +122,14 @@ export default defineComponent({
       })
     }
 
-    return { handleLogout, handleProfile, user, userName }
+    return {
+      darkMode: computed(() => $quasar.dark.isActive),
+      handleDarkMode,
+      handleLogout,
+      handleProfile,
+      user,
+      userName
+    }
   }
 })
 </script>

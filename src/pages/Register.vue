@@ -35,7 +35,7 @@
               <div class="col-9">
                 <q-input
                   v-model="email"
-                  class="bg-white col"
+                  class="col"
                   dense
                   :disable="loading"
                   outlined
@@ -52,7 +52,7 @@
               <div class="col-9">
                 <q-input
                   v-model="name"
-                  class="bg-white col"
+                  class="col"
                   dense
                   :disable="loading"
                   outlined
@@ -68,7 +68,7 @@
               <div class="col-9">
                 <q-input
                   v-model="password"
-                  class="bg-white col"
+                  class="col"
                   dense
                   :disable="loading"
                   outlined
@@ -85,7 +85,7 @@
               <div class="col-9">
                 <q-input
                   v-model="passwordConfirm"
-                  class="bg-white col"
+                  class="col"
                   dense
                   :disable="loading"
                   outlined

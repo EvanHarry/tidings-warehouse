@@ -131,7 +131,6 @@
 
           <q-input
             v-model="searchQuery.dateArrived"
-            class="bg-white"
             clearable
             dense
             outlined
@@ -160,7 +159,6 @@
 
           <q-input
             v-model="searchQuery.invoiceNumber"
-            class="bg-white"
             clearable
             dense
             :disable="inventoryAllGetLoading"
@@ -174,7 +172,6 @@
 
           <q-select
             v-model="searchQuery.location"
-            class="bg-white"
             clearable
             dense
             :disable="inventoryAllGetLoading"
@@ -189,7 +186,6 @@
 
           <q-input
             v-model="searchQuery.partDescription"
-            class="bg-white"
             clearable
             dense
             :disable="inventoryAllGetLoading"
@@ -203,7 +199,6 @@
 
           <q-input
             v-model="searchQuery.partNumber"
-            class="bg-white"
             clearable
             dense
             :disable="inventoryAllGetLoading"
@@ -243,7 +238,6 @@
 
           <q-input
             v-model="inventoryCreate.dateArrived"
-            class="bg-white"
             dense
             outlined
             placeholder="YYYY-MM-DD HH:mm"
@@ -271,7 +265,6 @@
 
           <q-input
             v-model="inventoryCreate.invoiceNumber"
-            class="bg-white"
             dense
             outlined
             square
@@ -283,7 +276,6 @@
 
           <q-input
             v-model="inventoryCreate.location"
-            class="bg-white"
             dense
             outlined
             square
@@ -295,7 +287,6 @@
 
           <q-input
             v-model="inventoryCreate.partDescription"
-            class="bg-white"
             dense
             outlined
             square
@@ -307,7 +298,6 @@
 
           <q-input
             v-model="inventoryCreate.partNumber"
-            class="bg-white"
             dense
             outlined
             square
@@ -360,7 +350,6 @@
 
           <q-input
             v-model="inventoryEdit.dateArrived"
-            class="bg-white"
             dense
             outlined
             placeholder="YYYY-MM-DD HH:mm"
@@ -388,7 +377,6 @@
 
           <q-input
             v-model="inventoryEdit.invoiceNumber"
-            class="bg-white"
             dense
             outlined
             square
@@ -400,7 +388,6 @@
 
           <q-input
             v-model="inventoryEdit.location"
-            class="bg-white"
             dense
             outlined
             square
@@ -412,7 +399,6 @@
 
           <q-input
             v-model="inventoryEdit.partDescription"
-            class="bg-white"
             dense
             outlined
             square
@@ -424,7 +410,6 @@
 
           <q-input
             v-model="inventoryEdit.partNumber"
-            class="bg-white"
             dense
             outlined
             square
@@ -436,7 +421,6 @@
 
           <q-input
             v-model="inventoryEdit.lastModified"
-            class="bg-white"
             dense
             disable
             outlined
@@ -490,7 +474,6 @@
 
           <q-input
             v-model="searchQuery.dateArrived"
-            class="bg-white"
             clearable
             dense
             outlined
@@ -519,7 +502,6 @@
 
           <q-input
             v-model="searchQuery.invoiceNumber"
-            class="bg-white"
             clearable
             dense
             :disable="inventoryAllGetLoading"
@@ -533,7 +515,6 @@
 
           <q-select
             v-model="searchQuery.location"
-            class="bg-white"
             clearable
             dense
             :disable="inventoryAllGetLoading"
@@ -548,7 +529,6 @@
 
           <q-input
             v-model="searchQuery.partDescription"
-            class="bg-white"
             clearable
             dense
             :disable="inventoryAllGetLoading"
@@ -562,7 +542,6 @@
 
           <q-input
             v-model="searchQuery.partNumber"
-            class="bg-white"
             clearable
             dense
             :disable="inventoryAllGetLoading"

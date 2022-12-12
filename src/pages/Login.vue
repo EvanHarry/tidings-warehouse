@@ -1,5 +1,5 @@
 <template>
-  <q-layout class="bg-grey-1">
+  <q-layout>
     <q-page-container>
       <q-page class="row items-center justify-center" padding>
         <q-card
@@ -35,7 +35,7 @@
               <div class="col-9">
                 <q-input
                   v-model="email"
-                  class="bg-white col"
+                  class="col"
                   dense
                   :disable="loading"
                   outlined
@@ -52,7 +52,7 @@
               <div class="col-9">
                 <q-input
                   v-model="password"
-                  class="bg-white col"
+                  class="col"
                   dense
                   :disable="loading"
                   outlined
