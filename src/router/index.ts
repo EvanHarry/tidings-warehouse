@@ -8,6 +8,7 @@ import {
 
 import routes from './routes'
 import useAuthUser from 'src/composables/useAuthUser'
+import useSupabase from 'src/composables/useSupabase'
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -41,9 +42,17 @@ export default route(function (/* { store, ssrContext } */) {
 
   Router.beforeEach(async (to) => {
     const { isLoggedIn } = useAuthUser()
+    const { supabase } = useSupabase()
 
     if (!isLoggedIn() && to.meta.requiresAuth) {
-      return { path: '/login' }
+      const refreshToken = localStorage.getItem('refreshToken')
+
+      if (refreshToken) {
+        const { error } = await supabase.auth.refreshSession({ refresh_token: refreshToken })
+        if (error) return { path: '/login' }
+      } else {
+        return { path: '/login' }
+      }
     }
   })
 
