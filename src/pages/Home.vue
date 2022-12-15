@@ -801,25 +801,12 @@ export default defineComponent({
         sender: inventoryCreate.value.sender
       }).select().single()
 
-      inventoryCreateSaveLoading.value = false
-
       if (!data || error) {
         if (!data) console.log('unspecified error')
         if (error) console.log(error)
 
         return
       }
-
-      inventoryAll.value.push({
-        boxNumber: data.box_number,
-        dateArrived: prettifyDate(new Date(data.date_arrived)),
-        description: data.description,
-        id: data.id,
-        lastModified: data.last_modified,
-        location: data.location,
-        project: data.project,
-        sender: data.sender
-      })
 
       inventoryCreateCancel()
     }
@@ -865,38 +852,11 @@ export default defineComponent({
         sender: inventoryEdit.value.sender
       }).eq('id', inventoryEdit.value.id).select().single()
 
-      inventoryEditSaveLoading.value = false
-
       if (!data || error) {
         if (!data) console.log('unspecified error')
         if (error) console.log(error)
 
         return
-      }
-
-      const inventoryIndex = inventoryAll.value.findIndex(m => m.id === inventoryEdit.value.id)
-      if (inventoryIndex >= 0) {
-        inventoryAll.value.splice(inventoryIndex, 1, {
-          boxNumber: data.box_number,
-          dateArrived: prettifyDate(new Date(data.date_arrived)),
-          description: data.description,
-          id: data.id,
-          lastModified: data.last_modified,
-          location: data.location,
-          project: data.project,
-          sender: data.sender
-        })
-      } else {
-        inventoryAll.value.push({
-          boxNumber: data.box_number,
-          dateArrived: prettifyDate(new Date(data.date_arrived)),
-          description: data.description,
-          id: data.id,
-          lastModified: data.last_modified,
-          location: data.location,
-          project: data.project,
-          sender: data.sender
-        })
       }
 
       inventoryEditCancel()
@@ -922,15 +882,13 @@ export default defineComponent({
 
         const { error } = await supabase.from('inventory').delete().eq('id', inventoryID)
 
-        inventoryRemoveLoading.value = ''
-
-        inventoryAll.value = inventoryAll.value.filter(m => m.id !== inventoryID)
-
         if (error) {
           if (error) console.log(error)
 
           return
         }
+
+        inventoryRemoveLoading.value = ''
       })
     }
     const inventoryRemoveLoading = ref('')
