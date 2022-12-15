@@ -87,7 +87,7 @@ export default defineComponent({
 
     const handleDarkMode = () => {
       $quasar.dark.toggle()
-      localStorage.setItem('darkMode', $quasar.dark.isActive)
+      localStorage.setItem('darkMode', $quasar.dark.isActive ? 'true' : 'false')
     }
 
     const handleLogout = async () => {
