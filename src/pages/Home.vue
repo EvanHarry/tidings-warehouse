@@ -51,6 +51,7 @@
               icon="check"
               :ripple="false"
               size="sm"
+              @click="inventoryEditOpen(props.row)"
             >
               <q-tooltip>Edit Entry</q-tooltip>
             </q-btn>
