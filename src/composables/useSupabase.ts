@@ -24,6 +24,8 @@ supabase.auth.onAuthStateChange(async (event, session) => {
     isAuthorized.value = false
     user.value = null
     userName.value = ''
+
+    localStorage.removeItem('refreshToken')
   }
 })
 

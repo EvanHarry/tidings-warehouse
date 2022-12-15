@@ -264,6 +264,7 @@
           <q-input
             v-model="inventoryCreate.dateArrived"
             dense
+            disable
             outlined
             placeholder="YYYY-MM-DD HH:mm"
             square
@@ -387,6 +388,7 @@
           <q-input
             v-model="inventoryEdit.dateArrived"
             dense
+            disable
             outlined
             placeholder="YYYY-MM-DD HH:mm"
             square
@@ -703,6 +705,45 @@ export default defineComponent({
 
     const { userName } = useAuthUser()
     const { supabase } = useSupabase()
+
+    // setup realtime database
+    supabase
+      .channel('public:inventory')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'inventory' }, payload => {
+        if (payload.eventType === 'DELETE') {
+          inventoryAll.value = inventoryAll.value.filter(m => m.id !== payload.old['id'])
+        }
+
+        if (payload.eventType === 'INSERT') {
+          inventoryAll.value.push({
+            boxNumber: payload.new['box_number'],
+            dateArrived: prettifyDate(new Date(payload.new['date_arrived'])),
+            description: payload.new['description'],
+            id: payload.new['id'],
+            lastModified: payload.new['last_modified'],
+            location: payload.new['location'],
+            project: payload.new['project'],
+            sender: payload.new['sender']
+          })
+        }
+
+        if (payload.eventType === 'UPDATE') {
+          const inventoryIndex = inventoryAll.value.findIndex(m => m.id === payload.old['id'])
+          if (inventoryIndex >= 0) {
+            inventoryAll.value.splice(inventoryIndex, 1, {
+              boxNumber: payload.new['box_number'],
+              dateArrived: prettifyDate(new Date(payload.new['date_arrived'])),
+              description: payload.new['description'],
+              id: payload.new['id'],
+              lastModified: payload.new['last_modified'],
+              location: payload.new['location'],
+              project: payload.new['project'],
+              sender: payload.new['sender']
+            })
+          }
+        }
+      })
+      .subscribe()
 
     // Inventory All
     const inventoryAll = ref<Inventory[]>([])
