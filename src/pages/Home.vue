@@ -792,7 +792,7 @@ export default defineComponent({
 
       const { data, error } = await supabase.from('inventory').insert({
         box_number: inventoryCreate.value.boxNumber,
-        date_arrived: inventoryCreate.value.dateArrived,
+        date_arrived: new Date(inventoryCreate.value.dateArrived).toISOString(),
         description: inventoryCreate.value.description,
         last_modified: `${prettifyDate(new Date())} - ${userName.value}`,
         location: inventoryCreate.value.location,
