@@ -778,9 +778,9 @@ export default defineComponent({
     onMounted(inventoryAllGet)
 
     // Inventory Create
-    const inventoryCreate = ref<Inventory>({ boxNumber: '', dateArrived: '', description: '', id: '', lastModified: '', location: '', project: '', sender: '' })
+    const inventoryCreate = ref<Inventory>({ boxNumber: '', dateArrived: prettifyDate(new Date()), description: '', id: '', lastModified: '', location: '', project: '', sender: '' })
     const inventoryCreateCancel = () => {
-      inventoryCreate.value = { boxNumber: '', dateArrived: '', description: '', id: '', lastModified: '', location: '', project: '', sender: '' }
+      inventoryCreate.value = { boxNumber: '', dateArrived: prettifyDate(new Date()), description: '', id: '', lastModified: '', location: '', project: '', sender: '' }
       inventoryCreateDialog.value = false
       inventoryCreateSaveLoading.value = false
     }
@@ -792,7 +792,7 @@ export default defineComponent({
 
       const { data, error } = await supabase.from('inventory').insert({
         box_number: inventoryCreate.value.boxNumber,
-        date_arrived: new Date().toISOString(),
+        date_arrived: inventoryCreate.value.dateArrived,
         description: inventoryCreate.value.description,
         last_modified: `${prettifyDate(new Date())} - ${userName.value}`,
         location: inventoryCreate.value.location,
