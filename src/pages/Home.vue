@@ -707,8 +707,7 @@ export default defineComponent({
     const { supabase } = useSupabase()
 
     // setup realtime database
-    supabase
-      .channel('public:inventory')
+    supabase.channel('public:inventory')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'inventory' }, payload => {
         if (payload.eventType === 'DELETE') {
           inventoryAll.value = inventoryAll.value.filter(m => m.id !== payload.old['id'])
@@ -779,9 +778,9 @@ export default defineComponent({
     onMounted(inventoryAllGet)
 
     // Inventory Create
-    const inventoryCreate = ref<Inventory>({ boxNumber: '', dateArrived: prettifyDate(new Date()), description: '', id: '', lastModified: `${prettifyDate(new Date())} - ${userName.value}`, location: '', project: '', sender: '' })
+    const inventoryCreate = ref<Inventory>({ boxNumber: '', dateArrived: '', description: '', id: '', lastModified: '', location: '', project: '', sender: '' })
     const inventoryCreateCancel = () => {
-      inventoryCreate.value = { boxNumber: '', dateArrived: prettifyDate(new Date()), description: '', id: '', lastModified: `${prettifyDate(new Date())} - ${userName.value}`, location: '', project: '', sender: '' }
+      inventoryCreate.value = { boxNumber: '', dateArrived: '', description: '', id: '', lastModified: '', location: '', project: '', sender: '' }
       inventoryCreateDialog.value = false
       inventoryCreateSaveLoading.value = false
     }
@@ -793,9 +792,9 @@ export default defineComponent({
 
       const { data, error } = await supabase.from('inventory').insert({
         box_number: inventoryCreate.value.boxNumber,
-        date_arrived: new Date(inventoryCreate.value.dateArrived).toISOString(),
+        date_arrived: new Date().toISOString(),
         description: inventoryCreate.value.description,
-        last_modified: inventoryCreate.value.lastModified,
+        last_modified: `${prettifyDate(new Date())} - ${userName.value}`,
         location: inventoryCreate.value.location,
         project: inventoryCreate.value.project,
         sender: inventoryCreate.value.sender
