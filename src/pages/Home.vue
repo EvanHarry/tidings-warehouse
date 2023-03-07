@@ -424,7 +424,7 @@
           />
         </q-card-section>
 
-        <q-card-section class="q-pb-xs">
+        <q-card-section class="q-py-xs">
           <div class="text-subtitle2">Supplier</div>
 
           <q-input

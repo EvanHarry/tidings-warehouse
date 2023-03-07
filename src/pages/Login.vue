@@ -39,7 +39,7 @@
                   dense
                   :disable="loading"
                   outlined
-                  placeholder="example@adlerpelzer.com"
+                  placeholder="name@example.org"
                   square
                   type="email"
                 />
