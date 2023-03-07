@@ -7,7 +7,7 @@ const supabaseAnonKey: string = import.meta.env.VITE_SUPABASE_ANON_KEY
 
 const supabase = createClient(supabaseURL, supabaseAnonKey)
 
-supabase.auth.onAuthStateChange(async (event, session) => {
+supabase.auth.onAuthStateChange(async (_, session) => {
   const { isAuthorized, user, userName } = useAuthUser()
 
   if (session) {

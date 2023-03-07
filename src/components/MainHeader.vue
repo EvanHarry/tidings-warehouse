@@ -6,9 +6,9 @@
   >
     <q-toolbar>
       <q-toolbar-title class="gt-sm q-ml-sm non-selectable">
-        <strong class="text-blue">Adler Pelzer Group</strong>
+        <strong class="text-blue">Tidings Padstow</strong>
 
-        <span class="text-orange q-pl-xs">Villastellone Magazzino</span>
+        <span class="text-orange q-pl-xs">Warehouse</span>
       </q-toolbar-title>
 
       <q-img

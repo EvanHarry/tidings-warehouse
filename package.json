@@ -1,9 +1,9 @@
 {
-  "name": "villastellone-magazzino",
+  "name": "tidings-warehouse",
   "version": "0.0.1",
-  "description": "Warehouse management for Villastellone office",
-  "productName": "Villastellone-Magazzino",
-  "author": "Evan Harry <evan.harry@adlerpelzer.com>",
+  "description": "Warehouse management for Tidings Padstow",
+  "productName": "Tidings-Warehouse",
+  "author": "Evan Harry <evan.harry@outlook.com>",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.ts,.vue ./",

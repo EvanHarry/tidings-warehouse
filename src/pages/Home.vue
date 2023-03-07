@@ -128,61 +128,7 @@
         square
       >
         <q-card-section class="q-pb-xs">
-          <div class="text-subtitle2">Box Number</div>
-
-          <q-input
-            v-model="searchQuery.boxNumber"
-            clearable
-            dense
-            :disable="inventoryAllGetLoading"
-            outlined
-            square
-          />
-        </q-card-section>
-
-        <q-card-section class="q-py-xs">
-          <div class="text-subtitle2">Date Arrived</div>
-
-          <q-input
-            v-model="searchQuery.dateArrived"
-            clearable
-            dense
-            outlined
-            placeholder="YYYY-MM-DD"
-            square
-          >
-            <q-popup-proxy
-              cover
-              transition-hide="scale"
-              transition-show="scale"
-            >
-              <q-date
-                v-model="searchQuery.dateArrived"
-                first-day-of-week="1"
-                flat
-                mask="YYYY-MM-DD"
-                minimal
-                no-unset
-              />
-            </q-popup-proxy>
-          </q-input>
-        </q-card-section>
-
-        <q-card-section class="q-py-xs">
-          <div class="text-subtitle2">Descrizione</div>
-
-          <q-input
-            v-model="searchQuery.description"
-            clearable
-            dense
-            :disable="inventoryAllGetLoading"
-            outlined
-            square
-          />
-        </q-card-section>
-
-        <q-card-section class="q-py-xs">
-          <div class="text-subtitle2">Ubicazione</div>
+          <div class="text-subtitle2">Location</div>
 
           <q-select
             v-model="searchQuery.location"
@@ -196,10 +142,23 @@
         </q-card-section>
 
         <q-card-section class="q-py-xs">
-          <div class="text-subtitle2">Progetto</div>
+          <div class="text-subtitle2">Supplier</div>
 
           <q-input
-            v-model="searchQuery.project"
+            v-model="searchQuery.supplier"
+            clearable
+            dense
+            :disable="inventoryAllGetLoading"
+            outlined
+            square
+          />
+        </q-card-section>
+
+        <q-card-section class="q-py-xs">
+          <div class="text-subtitle2">Supplier Code</div>
+
+          <q-input
+            v-model="searchQuery.supplierCode"
             clearable
             dense
             :disable="inventoryAllGetLoading"
@@ -209,10 +168,10 @@
         </q-card-section>
 
         <q-card-section class="q-pt-xs">
-          <div class="text-subtitle2">Mittente</div>
+          <div class="text-subtitle2">Tidings Code</div>
 
           <q-input
-            v-model="searchQuery.sender"
+            v-model="searchQuery.tidingsCode"
             clearable
             dense
             :disable="inventoryAllGetLoading"
@@ -228,6 +187,7 @@
             class="full-width"
             color="green"
             :ripple="false"
+            style="border-radius: 0px;"
             unelevated
             @click="inventoryCreateDialog = true"
           >
@@ -248,57 +208,7 @@
         style="width: 600px;"
       >
         <q-card-section class="q-pb-xs">
-          <div class="text-subtitle2">Box No.</div>
-
-          <q-input
-            v-model="inventoryCreate.boxNumber"
-            dense
-            outlined
-            square
-          />
-        </q-card-section>
-
-        <q-card-section class="q-py-xs">
-          <div class="text-subtitle2">Date Arrived</div>
-
-          <q-input
-            v-model="inventoryCreate.dateArrived"
-            dense
-            disable
-            outlined
-            placeholder="YYYY-MM-DD HH:mm"
-            square
-          >
-            <q-popup-proxy
-              cover
-              transition-hide="scale"
-              transition-show="scale"
-            >
-              <q-date
-                v-model="inventoryCreate.dateArrived"
-                first-day-of-week="1"
-                flat
-                mask="YYYY-MM-DD HH:mm"
-                minimal
-                no-unset
-              />
-            </q-popup-proxy>
-          </q-input>
-        </q-card-section>
-
-        <q-card-section class="q-py-xs">
-          <div class="text-subtitle2">Descrizione</div>
-
-          <q-input
-            v-model="inventoryCreate.description"
-            dense
-            outlined
-            square
-          />
-        </q-card-section>
-
-        <q-card-section class="q-py-xs">
-          <div class="text-subtitle2">Ubicazione</div>
+          <div class="text-subtitle2">Location</div>
 
           <q-input
             v-model="inventoryCreate.location"
@@ -309,10 +219,32 @@
         </q-card-section>
 
         <q-card-section class="q-py-xs">
-          <div class="text-subtitle2">Progetto</div>
+          <div class="text-subtitle2">Quantity</div>
 
           <q-input
-            v-model="inventoryCreate.project"
+            v-model.number="inventoryCreate.quantity"
+            dense
+            outlined
+            square
+          />
+        </q-card-section>
+
+        <q-card-section class="q-py-xs">
+          <div class="text-subtitle2">Supplier</div>
+
+          <q-input
+            v-model="inventoryCreate.supplier"
+            dense
+            outlined
+            square
+          />
+        </q-card-section>
+
+        <q-card-section class="q-py-xs">
+          <div class="text-subtitle2">Supplier Code</div>
+
+          <q-input
+            v-model="inventoryCreate.supplierCode"
             dense
             outlined
             square
@@ -320,10 +252,10 @@
         </q-card-section>
 
         <q-card-section class="q-pt-xs">
-          <div class="text-subtitle2">Mittente</div>
+          <div class="text-subtitle2">Tidings Code</div>
 
           <q-input
-            v-model="inventoryCreate.sender"
+            v-model="inventoryCreate.tidingsCode"
             dense
             outlined
             square
@@ -371,58 +303,8 @@
         square
         style="width: 600px;"
       >
-        <q-card-section class="q-py-xs">
-          <div class="text-subtitle2">Box No.</div>
-
-          <q-input
-            v-model="inventoryEdit.boxNumber"
-            dense
-            outlined
-            square
-          />
-        </q-card-section>
-
         <q-card-section class="q-pb-xs">
-          <div class="text-subtitle2">Date Arrived</div>
-
-          <q-input
-            v-model="inventoryEdit.dateArrived"
-            dense
-            disable
-            outlined
-            placeholder="YYYY-MM-DD HH:mm"
-            square
-          >
-            <q-popup-proxy
-              cover
-              transition-hide="scale"
-              transition-show="scale"
-            >
-              <q-date
-                v-model="inventoryEdit.dateArrived"
-                first-day-of-week="1"
-                flat
-                mask="YYYY-MM-DD HH:mm"
-                minimal
-                no-unset
-              />
-            </q-popup-proxy>
-          </q-input>
-        </q-card-section>
-
-        <q-card-section class="q-py-xs">
-          <div class="text-subtitle2">Descrizione</div>
-
-          <q-input
-            v-model="inventoryEdit.description"
-            dense
-            outlined
-            square
-          />
-        </q-card-section>
-
-        <q-card-section class="q-py-xs">
-          <div class="text-subtitle2">Ubicazione</div>
+          <div class="text-subtitle2">Location</div>
 
           <q-input
             v-model="inventoryEdit.location"
@@ -433,10 +315,10 @@
         </q-card-section>
 
         <q-card-section class="q-py-xs">
-          <div class="text-subtitle2">Progetto</div>
+          <div class="text-subtitle2">Quantity</div>
 
           <q-input
-            v-model="inventoryEdit.project"
+            v-model.number="inventoryEdit.quantity"
             dense
             outlined
             square
@@ -444,10 +326,32 @@
         </q-card-section>
 
         <q-card-section class="q-py-xs">
-          <div class="text-subtitle2">Mittente</div>
+          <div class="text-subtitle2">Supplier</div>
 
           <q-input
-            v-model="inventoryEdit.sender"
+            v-model="inventoryEdit.supplier"
+            dense
+            outlined
+            square
+          />
+        </q-card-section>
+
+        <q-card-section class="q-py-xs">
+          <div class="text-subtitle2">Supplier Code</div>
+
+          <q-input
+            v-model="inventoryEdit.supplierCode"
+            dense
+            outlined
+            square
+          />
+        </q-card-section>
+
+        <q-card-section class="q-py-xs">
+          <div class="text-subtitle2">Tidings Code</div>
+
+          <q-input
+            v-model="inventoryEdit.tidingsCode"
             dense
             outlined
             square
@@ -507,60 +411,8 @@
         square
         style="width: 100%;"
       >
-        <q-card-section class="q-py-xs">
-          <div class="text-subtitle2">Box No.</div>
-
-          <q-input
-            v-model="searchQuery.boxNumber"
-            clearable
-            dense
-            outlined
-            square
-          />
-        </q-card-section>
-
         <q-card-section class="q-pb-xs">
-          <div class="text-subtitle2">Date Arrived</div>
-
-          <q-input
-            v-model="searchQuery.dateArrived"
-            clearable
-            dense
-            outlined
-            placeholder="YYYY-MM-DD"
-            square
-          >
-            <q-popup-proxy
-              cover
-              transition-hide="scale"
-              transition-show="scale"
-            >
-              <q-date
-                v-model="searchQuery.dateArrived"
-                first-day-of-week="1"
-                flat
-                mask="YYYY-MM-DD"
-                minimal
-                no-unset
-              />
-            </q-popup-proxy>
-          </q-input>
-        </q-card-section>
-
-        <q-card-section class="q-py-xs">
-          <div class="text-subtitle2">Descrizione</div>
-
-          <q-input
-            v-model="searchQuery.description"
-            clearable
-            dense
-            outlined
-            square
-          />
-        </q-card-section>
-
-        <q-card-section class="q-py-xs">
-          <div class="text-subtitle2">Ubicazione</div>
+          <div class="text-subtitle2">Location</div>
 
           <q-select
             v-model="searchQuery.location"
@@ -572,11 +424,23 @@
           />
         </q-card-section>
 
-        <q-card-section class="q-py-xs">
-          <div class="text-subtitle2">Progetto</div>
+        <q-card-section class="q-pb-xs">
+          <div class="text-subtitle2">Supplier</div>
 
           <q-input
-            v-model="searchQuery.project"
+            v-model="searchQuery.supplier"
+            clearable
+            dense
+            outlined
+            square
+          />
+        </q-card-section>
+
+        <q-card-section class="q-py-xs">
+          <div class="text-subtitle2">Supplier Code</div>
+
+          <q-input
+            v-model="searchQuery.supplierCode"
             clearable
             dense
             outlined
@@ -585,10 +449,10 @@
         </q-card-section>
 
         <q-card-section class="q-pt-xs">
-          <div class="text-subtitle2">Mittente</div>
+          <div class="text-subtitle2">Tidings Code</div>
 
           <q-input
-            v-model="searchQuery.sender"
+            v-model="searchQuery.tidingsCode"
             clearable
             dense
             outlined
@@ -603,6 +467,7 @@
             class="full-width"
             color="blue"
             :ripple="false"
+            style="border-radius: 0px;"
             unelevated
             @click="searchQueryDialog = false"
           >
@@ -623,68 +488,58 @@ import useSupabase from 'src/composables/useSupabase'
 import { prettifyDate } from 'src/utils'
 
 type Inventory = {
-  boxNumber: string
-  dateArrived: string
-  description: string
   id: string
   lastModified: string
   location: string
-  project: string
-  sender: string
+  quantity: number
+  supplier: string
+  supplierCode: string
+  tidingsCode: string
 }
 
 const columns: QTableProps['columns'] = [
   {
     align: 'left',
-    field: 'dateArrived',
+    field: 'supplierCode',
     headerStyle: 'width: 150px',
-    label: 'Date Arrived',
-    name: 'dateArrived',
+    label: 'Supplier Code',
+    name: 'supplierCode',
     sortable: false,
-    style: 'width: 150px'
+    style: 'max-width: 150px; overflow: hidden; text-overflow: ellipsis; width: 150px'
   },
   {
     align: 'left',
-    field: 'project',
+    field: 'tidingsCode',
     headerStyle: 'width: 150px',
-    label: 'Progetto',
-    name: 'project',
+    label: 'Tidings Code',
+    name: 'tidingsCode',
     sortable: true,
     style: 'max-width: 150px; overflow: hidden; text-overflow: ellipsis; width: 150px'
   },
   {
-    align: 'right',
-    field: 'description',
-    label: 'Descrizione',
-    name: 'description',
-    sortable: true
-  },
-  {
-    align: 'right',
-    field: 'boxNumber',
-    headerStyle: 'max-width: 100px',
-    label: 'No. Box',
-    name: 'boxNumber',
+    align: 'left',
+    field: 'supplier',
+    headerStyle: 'width: 200px',
+    label: 'Supplier',
+    name: 'supplier',
     sortable: true,
-    style: 'max-width: 100px; overflow: hidden; text-overflow: ellipsis; width: 100px'
-  },
-  {
-    align: 'right',
-    field: 'sender',
-    headerStyle: 'width: 150px',
-    label: 'Mittente',
-    name: 'sender',
-    sortable: true,
-    style: 'max-width: 150px; overflow: hidden; text-overflow: ellipsis; width: 150px'
+    style: 'max-width: 200px; overflow: hidden; text-overflow: ellipsis; width: 200px'
   },
   {
     align: 'right',
     field: 'location',
-    headerStyle: 'width: 150px',
-    label: 'Ubicazione',
+    label: 'Location',
     name: 'location',
-    sortable: true,
-    style: 'max-width: 150px; overflow: hidden; text-overflow: ellipsis; width: 150px'
+    sortable: true
+  },
+  {
+    align: 'right',
+    field: 'quantity',
+    headerStyle: 'width: 100px',
+    label: 'Quantity',
+    name: 'quantity',
+    sortable: false,
+    style: 'width: 100px'
   },
   {
     align: 'right',
@@ -715,14 +570,13 @@ export default defineComponent({
 
         if (payload.eventType === 'INSERT') {
           inventoryAll.value.push({
-            boxNumber: payload.new['box_number'],
-            dateArrived: prettifyDate(new Date(payload.new['date_arrived'])),
-            description: payload.new['description'],
             id: payload.new['id'],
             lastModified: payload.new['last_modified'],
             location: payload.new['location'],
-            project: payload.new['project'],
-            sender: payload.new['sender']
+            quantity: payload.new['quantity'],
+            supplier: payload.new['supplier'],
+            supplierCode: payload.new['supplier_code'],
+            tidingsCode: payload.new['tidings_code']
           })
         }
 
@@ -730,14 +584,13 @@ export default defineComponent({
           const inventoryIndex = inventoryAll.value.findIndex(m => m.id === payload.old['id'])
           if (inventoryIndex >= 0) {
             inventoryAll.value.splice(inventoryIndex, 1, {
-              boxNumber: payload.new['box_number'],
-              dateArrived: prettifyDate(new Date(payload.new['date_arrived'])),
-              description: payload.new['description'],
               id: payload.new['id'],
               lastModified: payload.new['last_modified'],
               location: payload.new['location'],
-              project: payload.new['project'],
-              sender: payload.new['sender']
+              quantity: payload.new['quantity'],
+              supplier: payload.new['supplier'],
+              supplierCode: payload.new['supplier_code'],
+              tidingsCode: payload.new['tidings_code']
             })
           }
         }
@@ -763,14 +616,13 @@ export default defineComponent({
 
       inventoryAll.value = data.map(m => {
         return {
-          boxNumber: m.box_number,
-          dateArrived: prettifyDate(new Date(m.date_arrived)),
-          description: m.description,
           id: m.id,
           lastModified: m.last_modified,
           location: m.location,
-          project: m.project,
-          sender: m.sender
+          quantity: m.quantity,
+          supplier: m.supplier,
+          supplierCode: m.supplier_code,
+          tidingsCode: m.tidings_code
         }
       })
     }
@@ -778,9 +630,9 @@ export default defineComponent({
     onMounted(inventoryAllGet)
 
     // Inventory Create
-    const inventoryCreate = ref<Inventory>({ boxNumber: '', dateArrived: prettifyDate(new Date()), description: '', id: '', lastModified: '', location: '', project: '', sender: '' })
+    const inventoryCreate = ref<Inventory>({ id: '', lastModified: '', location: '', quantity: 0, supplier: '', supplierCode: '', tidingsCode: '' })
     const inventoryCreateCancel = () => {
-      inventoryCreate.value = { boxNumber: '', dateArrived: prettifyDate(new Date()), description: '', id: '', lastModified: '', location: '', project: '', sender: '' }
+      inventoryCreate.value = { id: '', lastModified: '', location: '', quantity: 0, supplier: '', supplierCode: '', tidingsCode: '' }
       inventoryCreateDialog.value = false
       inventoryCreateSaveLoading.value = false
     }
@@ -791,13 +643,12 @@ export default defineComponent({
       inventoryCreateSaveLoading.value = true
 
       const { data, error } = await supabase.from('inventory').insert({
-        box_number: inventoryCreate.value.boxNumber,
-        date_arrived: new Date(inventoryCreate.value.dateArrived).toISOString(),
-        description: inventoryCreate.value.description,
         last_modified: `${prettifyDate(new Date())} - ${userName.value}`,
         location: inventoryCreate.value.location,
-        project: inventoryCreate.value.project,
-        sender: inventoryCreate.value.sender
+        quantity: inventoryCreate.value.quantity,
+        supplier: inventoryCreate.value.supplier,
+        supplier_code: inventoryCreate.value.supplierCode,
+        tidings_code: inventoryCreate.value.tidingsCode
       }).select().single()
 
       if (!data || error) {
@@ -813,20 +664,18 @@ export default defineComponent({
     const inventoryCreateValid = computed(() => {
       let valid = true
 
-      if (!inventoryCreate.value.boxNumber) valid = false
-      if (!inventoryCreate.value.dateArrived) valid = false
-      if (!inventoryCreate.value.description) valid = false
       if (!inventoryCreate.value.location) valid = false
-      if (!inventoryCreate.value.project) valid = false
-      if (!inventoryCreate.value.sender) valid = false
+      if (inventoryCreate.value.quantity < 0) valid = false
+      if (!inventoryCreate.value.supplier) valid = false
+      if (!inventoryCreate.value.supplierCode && !inventoryCreate.value.tidingsCode) valid = false
 
       return valid
     })
 
     // Inventory Edit
-    const inventoryEdit = ref<Inventory>({ boxNumber: '', dateArrived: '', description: '', id: '', lastModified: '', location: '', project: '', sender: '' })
+    const inventoryEdit = ref<Inventory>({ id: '', lastModified: '', location: '', quantity: 0, supplier: '', supplierCode: '', tidingsCode: '' })
     const inventoryEditCancel = () => {
-      inventoryEdit.value = { boxNumber: '', dateArrived: '', description: '', id: '', lastModified: '', location: '', project: '', sender: '' }
+      inventoryEdit.value = { id: '', lastModified: '', location: '', quantity: 0, supplier: '', supplierCode: '', tidingsCode: '' }
       inventoryEditDialog.value = false
       inventoryEditSaveLoading.value = false
     }
@@ -842,13 +691,12 @@ export default defineComponent({
       inventoryEditSaveLoading.value = true
 
       let { data, error } = await supabase.from('inventory').update({
-        box_number: inventoryEdit.value.boxNumber,
-        date_arrived: new Date(inventoryEdit.value.dateArrived).toISOString(),
-        description: inventoryEdit.value.description,
         last_modified: `${prettifyDate(new Date())} - ${userName.value}`,
         location: inventoryEdit.value.location,
-        project: inventoryEdit.value.project,
-        sender: inventoryEdit.value.sender
+        quantity: inventoryEdit.value.quantity,
+        supplier: inventoryEdit.value.supplier,
+        supplier_code: inventoryEdit.value.supplierCode,
+        tidings_code: inventoryEdit.value.tidingsCode
       }).eq('id', inventoryEdit.value.id).select().single()
 
       if (!data || error) {
@@ -864,12 +712,10 @@ export default defineComponent({
     const inventoryEditValid = computed(() => {
       let valid = true
 
-      if (!inventoryEdit.value.boxNumber) valid = false
-      if (!inventoryEdit.value.dateArrived) valid = false
-      if (!inventoryEdit.value.description) valid = false
       if (!inventoryEdit.value.location) valid = false
-      if (!inventoryEdit.value.project) valid = false
-      if (!inventoryEdit.value.sender) valid = false
+      if (inventoryEdit.value.quantity < 0) valid = false
+      if (!inventoryEdit.value.supplier) valid = false
+      if (!inventoryEdit.value.supplierCode && !inventoryEdit.value.tidingsCode) valid = false
 
       return valid
     })
@@ -893,7 +739,7 @@ export default defineComponent({
     const inventoryRemoveLoading = ref('')
 
     // Search Query
-    const searchQuery = ref<Inventory>({ boxNumber: '', dateArrived: '', description: '', id: '', lastModified: '', location: '', project: '', sender: '' })
+    const searchQuery = ref<Inventory>({ id: '', lastModified: '', location: '', quantity: 0, supplier: '', supplierCode: '', tidingsCode: '' })
     const searchQueryDialog = ref(false)
     const searchQueryLocationOpts = computed(() => {
       return inventoryAll.value
@@ -903,18 +749,10 @@ export default defineComponent({
     })
     const searchQueryResultsFiltered = computed(() => {
       return inventoryAll.value
-        .filter(m => searchQuery.value.boxNumber ? m.boxNumber.toLowerCase().indexOf(searchQuery.value.boxNumber.toLowerCase()) >= 0 : true)
-        .filter(m => searchQuery.value.dateArrived ? m.dateArrived.indexOf(searchQuery.value.dateArrived) >= 0 : true)
-        .filter(m => searchQuery.value.description ? m.description.toLowerCase().indexOf(searchQuery.value.description.toLowerCase()) >= 0 : true)
         .filter(m => searchQuery.value.location ? m.location.toLowerCase().indexOf(searchQuery.value.location.toLowerCase()) >= 0 : true)
-        .filter(m => searchQuery.value.project ? m.project.toLowerCase().indexOf(searchQuery.value.project.toLowerCase()) >= 0 : true)
-        .filter(m => searchQuery.value.sender ? m.sender.toLowerCase().indexOf(searchQuery.value.sender.toLowerCase()) >= 0 : true)
-        .sort((a, b) => {
-          const aDate = new Date(a.dateArrived)
-          const bDate = new Date(b.dateArrived)
-
-          return bDate.getTime() - aDate.getTime()
-        })
+        .filter(m => searchQuery.value.supplier ? m.supplier.toLowerCase().indexOf(searchQuery.value.supplier.toLowerCase()) >= 0 : true)
+        .filter(m => searchQuery.value.supplierCode ? m.supplierCode.toLowerCase().indexOf(searchQuery.value.supplierCode.toLowerCase()) >= 0 : true)
+        .filter(m => searchQuery.value.tidingsCode ? m.tidingsCode.toLowerCase().indexOf(searchQuery.value.tidingsCode.toLowerCase()) >= 0 : true)
     })
 
     return {

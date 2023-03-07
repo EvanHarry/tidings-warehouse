@@ -20,10 +20,10 @@
             </q-card-section>
 
             <q-card-section>
-              <div class="text-h3 text-weight-light text-orange">Villastellone Magazzino</div>
+              <div class="text-h3 text-weight-light text-orange">Tidings Warehouse</div>
 
               <div class="text-caption text-grey">
-                <strong class="text-blue">Adler Pelzer Group</strong>
+                <strong class="text-blue">Made by Evan Harry</strong>
               </div>
             </q-card-section>
           </q-card-section>
