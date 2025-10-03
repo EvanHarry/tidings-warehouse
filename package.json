@@ -29,5 +29,7 @@
     "prettier": "^2.5.1",
     "typescript": "^4.5.4"
   },
-  "engines": { "node": "22.x" }
+  "engines": {
+    "node": "22.x"
+  }
 }

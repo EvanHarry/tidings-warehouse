@@ -61,66 +61,75 @@
 </template>
 
 <script lang="ts">
-import { useQuasar } from 'quasar'
-import { computed, defineComponent, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useQuasar } from 'quasar';
+import { computed, defineComponent, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
-import useAuthUser from 'src/composables/useAuthUser'
-import useSupabase from 'src/composables/useSupabase'
+import useAuthUser from 'src/composables/useAuthUser';
+import useSupabase from 'src/composables/useSupabase';
 
 export default defineComponent({
   name: 'MainHeader',
 
-  setup () {
-    const $quasar = useQuasar()
-    const $router = useRouter()
+  setup() {
+    const $quasar = useQuasar();
+    const $router = useRouter();
 
-    const { logout, user, userName } = useAuthUser()
-    const { supabase } = useSupabase()
+    const { logout, user, userName } = useAuthUser();
+    const { supabase } = useSupabase();
 
     onMounted(() => {
-      const darkMode = localStorage.getItem('darkMode')
+      const darkMode = localStorage.getItem('darkMode');
       if (darkMode) {
-        $quasar.dark.set(darkMode === 'true')
+        $quasar.dark.set(darkMode === 'true');
       }
-    })
+    });
 
     const handleDarkMode = () => {
-      $quasar.dark.toggle()
-      localStorage.setItem('darkMode', $quasar.dark.isActive ? 'true' : 'false')
-    }
+      $quasar.dark.toggle();
+      localStorage.setItem(
+        'darkMode',
+        $quasar.dark.isActive ? 'true' : 'false'
+      );
+    };
 
     const handleLogout = async () => {
       await logout()
         .then(() => $router.push('/login'))
-        .catch((err) => console.log(err))
-    }
+        .catch((err) => console.log(err));
+    };
 
     const handleProfile = () => {
-      $quasar.dialog({
-        cancel: true,
-        focus: 'none',
-        persistent: true,
-        prompt: {
-          isValid: (val: string) => { return !!val },
-          model: userName.value,
-          type: 'text'
-        },
-        title: 'Update Profile'
-      }).onOk(async (payload: string) => {
-        if (!user.value) return
+      $quasar
+        .dialog({
+          cancel: true,
+          focus: 'none',
+          persistent: true,
+          prompt: {
+            isValid: (val: string) => {
+              return !!val;
+            },
+            model: userName.value,
+            type: 'text',
+          },
+          title: 'Update Profile',
+        })
+        .onOk(async (payload: string) => {
+          if (!user.value) return;
 
-        const { error } = await supabase.from('profiles').upsert({ id: user.value.id, full_name: payload })
+          const { error } = await supabase
+            .from('profiles')
+            .upsert({ id: user.value.id, full_name: payload });
 
-        if (error) {
-          if (error) console.log(error)
+          if (error) {
+            if (error) console.log(error);
 
-          return
-        }
+            return;
+          }
 
-        userName.value = payload
-      })
-    }
+          userName.value = payload;
+        });
+    };
 
     return {
       darkMode: computed(() => $quasar.dark.isActive),
@@ -128,8 +137,8 @@ export default defineComponent({
       handleLogout,
       handleProfile,
       user,
-      userName
-    }
-  }
-})
+      userName,
+    };
+  },
+});
 </script>

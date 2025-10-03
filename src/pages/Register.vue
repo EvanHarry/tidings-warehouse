@@ -2,15 +2,8 @@
   <q-layout class="bg-grey-1">
     <q-page-container>
       <q-page class="row items-center justify-center" padding>
-        <q-card
-          bordered
-          flat
-          square
-        >
-          <q-card-section
-            class="items-center justify-center"
-            horizontal
-          >
+        <q-card bordered flat square>
+          <q-card-section class="items-center justify-center" horizontal>
             <q-card-section class="flex flex-center">
               <q-img
                 fit="scale-down"
@@ -20,7 +13,9 @@
             </q-card-section>
 
             <q-card-section>
-              <div class="text-h3 text-weight-light text-orange">Tidings Warehouse</div>
+              <div class="text-h3 text-weight-light text-orange">
+                Tidings Warehouse
+              </div>
 
               <div class="text-caption text-grey">
                 <strong class="text-blue">Made by Evan Harry</strong>
@@ -80,7 +75,9 @@
             </q-card-section>
 
             <q-card-section class="q-pt-sm row">
-              <div class="col-3 text-subtitle2 row items-center">Confirm Password</div>
+              <div class="col-3 text-subtitle2 row items-center">
+                Confirm Password
+              </div>
 
               <div class="col-9">
                 <q-input
@@ -101,7 +98,7 @@
             <q-card-actions>
               <div
                 class="q-pl-sm text-caption cursor-pointer non-selectable"
-                style="text-decoration: underline;"
+                style="text-decoration: underline"
                 @click="$router.push('/login')"
               >
                 Back to Login
@@ -115,7 +112,7 @@
                 :disable="!valid"
                 :loading="loading"
                 :ripple="false"
-                style="border-radius: 0; max-width: 150px; width: 100%;"
+                style="border-radius: 0; max-width: 150px; width: 100%"
                 type="submit"
                 unelevated
               >
@@ -130,44 +127,46 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed, defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-import useAuthUser from 'src/composables/useAuthUser'
+import useAuthUser from 'src/composables/useAuthUser';
 
 export default defineComponent({
   name: 'AppRegister',
 
-  setup () {
-    const $router = useRouter()
+  setup() {
+    const $router = useRouter();
 
-    const { register } = useAuthUser()
+    const { register } = useAuthUser();
 
-    const email = ref('')
-    const loading = ref(false)
-    const name = ref('')
-    const password = ref('')
-    const passwordConfirm = ref('')
+    const email = ref('');
+    const loading = ref(false);
+    const name = ref('');
+    const password = ref('');
+    const passwordConfirm = ref('');
     const valid = computed(() => {
-      let valid = true
+      let valid = true;
 
-      if (!email.value) valid = false
-      if (!name.value) valid = false
-      if (!password.value) valid = false
-      if (password.value.length < 8) valid = false
-      if (password.value !== passwordConfirm.value) valid = false
+      if (!email.value) valid = false;
+      if (!name.value) valid = false;
+      if (!password.value) valid = false;
+      if (password.value.length < 8) valid = false;
+      if (password.value !== passwordConfirm.value) valid = false;
 
-      return valid
-    })
+      return valid;
+    });
 
     const handleRegister = async () => {
-      loading.value = true
+      loading.value = true;
 
       await register(email.value, name.value, password.value)
         .then(() => $router.push('/home'))
         .catch((err) => console.log(err))
-        .finally(() => { loading.value = false })
-    }
+        .finally(() => {
+          loading.value = false;
+        });
+    };
 
     return {
       email,
@@ -176,8 +175,8 @@ export default defineComponent({
       name,
       password,
       passwordConfirm,
-      valid
-    }
-  }
-})
+      valid,
+    };
+  },
+});
 </script>

@@ -9,22 +9,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
 
-import MainHeader from 'src/components/MainHeader.vue'
-import useAuthUser from 'src/composables/useAuthUser'
+import MainHeader from 'src/components/MainHeader.vue';
+import useAuthUser from 'src/composables/useAuthUser';
 
 export default defineComponent({
   name: 'MainLayout',
 
   components: {
-    MainHeader
+    MainHeader,
   },
 
-  setup () {
-    const { isLoggedIn } = useAuthUser()
+  setup() {
+    const { isLoggedIn } = useAuthUser();
 
-    return { isLoggedIn }
-  }
-})
+    return { isLoggedIn };
+  },
+});
 </script>
